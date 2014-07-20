@@ -8,7 +8,7 @@ class YoyoTest < Minitest::Test
     @test_connection = Faraday.new do |builder|
       builder.adapter :test do |stub|
         stub.post('/yo/') { [200, {}, "{\"result\": \"OK\"}"] }
-        stub.post('/yo_all/') { [200, {}, "{\"result\": \"OK\"}"] }
+        stub.post('/yoall/') { [201, {}, "{}"] }
       end
     end
 
@@ -37,6 +37,6 @@ class YoyoTest < Minitest::Test
     yo = Yoyo::Yo.new("some-token")
 
     response = yo.yo_all
-    assert_equal "{\"result\": \"OK\"}", response.body
+    assert_equal "{}", response.body
   end
 end

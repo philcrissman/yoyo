@@ -16,12 +16,12 @@ module Yoyo
 
     # Say YO to someone from your API account
     def yo(some_user)
-      api_connection.post "/yo/", { token: @api_token, name: some_user }
+      api_connection.post "/yo/", { api_token: api_token, username: some_user }
     end
 
     # Say YO to everyone who has ever YO'd your API account
     def yo_all
-      api_connection.post "/yo_all/", { token: @api_token }
+      api_connection.post "/yoall/", { api_token: api_token }
     end
   end
 end
