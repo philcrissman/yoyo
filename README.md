@@ -1,6 +1,6 @@
 # Yoyo
 
-TODO: Write a gem description
+A ruby gem for using the YO API. You know you need this.
 
 ## Installation
 
@@ -18,7 +18,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+yo = YoClient.new(api-key)
+
+# YO some specific YO user
+yo.yo("SOME_YO_USER")
+
+# mass YO everyone who has ever YO'd your API account
+yo.yo_all
+```
+That's ... that's pretty much their entire API
+
+## Why would I install this gem instead of just using `curl`?
+
+Only you can answer this question.
 
 ## Contributing
 
