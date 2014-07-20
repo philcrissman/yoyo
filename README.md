@@ -18,6 +18,8 @@ Or install it yourself as:
 
 ## Usage
 
+You'll need to get an API token from [YO](http://yoapi.justyo.co/). You go ahead and do that, I'll wait.
+
 ```
 yo = Yoyo::Yo.new(api-key)
 

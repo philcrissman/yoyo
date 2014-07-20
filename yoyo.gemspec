@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "yoyo"
   spec.version       = Yoyo::VERSION
   spec.authors       = ["Phil Crissman"]
-  spec.email         = ["phil.crissman@aonhewitt.com"]
+  spec.email         = ["phil.crissman@gmail.com"]
   spec.summary       = %q{A ruby gem for using the YO API}
   spec.description   = %q{It's a ruby gem for using the YO API. You need to get an API Token, okay?}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/philcrissman/yoyo"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
