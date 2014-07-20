@@ -19,7 +19,7 @@ Or install it yourself as:
 ## Usage
 
 ```
-yo = YoClient.new(api-key)
+yo = Yoyo::Yo.new(api-key)
 
 # YO some specific YO user
 yo.yo("SOME_YO_USER")
