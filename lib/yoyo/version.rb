@@ -1,3 +1,5 @@
 module Yoyo
-  VERSION = "0.1.0"
+  # This is what version of Yoyo this is!
+  # They grow up so fast.
+  VERSION = "0.1.1"
 end
