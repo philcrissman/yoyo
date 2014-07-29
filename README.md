@@ -28,7 +28,11 @@ yo.yo("SOME_YO_USER")
 
 # mass YO everyone who has ever YO'd your API account
 yo.yo_all
+
+# find out how many subscribers you have. OMG
+yo.subscribers_count
 ```
+
 That's ... that's pretty much their entire API
 
 ## Why would I install this gem instead of just using `curl`?
