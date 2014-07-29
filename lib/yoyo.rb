@@ -42,13 +42,12 @@ module Yoyo
     # Does YO document this anywhere? I can't find it.
     # Returns a Faraday response.
     # To get the count, you could:
-    # ```
-    # require 'JSON'
-    # yo = Yoyo::Yo.new('your-token')
-    # count = yo.subscribers_count
-    # response_hash = JSON.parse(count.body)
-    # response_hash['result']
-    # ```
+    # 
+    #   require 'JSON'
+    #   yo = Yoyo::Yo.new('your-token')
+    #   count = yo.subscribers_count
+    #   response_hash = JSON.parse(count.body)
+    #   response_hash['result']
     #
     # That's not too hard.
     def subscribers_count
