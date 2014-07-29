@@ -23,5 +23,9 @@ module Yoyo
     def yo_all
       api_connection.post "/yoall/", { api_token: api_token }
     end
+
+    def subscribers_count
+      api_connection.get "/subscribers_count/", { api_token: api_token }
+    end
   end
 end
