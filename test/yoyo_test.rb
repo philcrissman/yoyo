@@ -9,6 +9,7 @@ class YoyoTest < Minitest::Test
       builder.adapter :test do |stub|
         stub.post('/yo/') { [200, {}, "{\"result\": \"OK\"}"] }
         stub.post('/yoall/') { [201, {}, "{}"] }
+        stub.get('/subscribers_count/') { [200, {}, "{\"result\": 9001}"] }
       end
     end
 
@@ -38,5 +39,12 @@ class YoyoTest < Minitest::Test
 
     response = yo.yo_all
     assert_equal "{}", response.body
+  end
+
+  def test_get_subscriber_count
+    yo = Yoyo::Yo.new("some-token")
+
+    response = yo.subscribers_count
+    assert_equal "{\"result\": 9001}", response.body
   end
 end
