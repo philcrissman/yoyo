@@ -1,5 +1,7 @@
 require "yoyo/version"
 require 'faraday'
+require 'json'
+require 'ostruct'
 
 module Yoyo
   class Yo
@@ -15,6 +17,14 @@ module Yoyo
     # I mean API.
     attr_reader :api_connection
 
+    # Struct containing all relevant data from the Yo request
+    #
+    # result#response => Faraday::Response
+    # result#parsed => JSON parsed response body
+    # result#error => populated if request error'd :(
+    # result#result => horribly named store for success response
+    attr_reader :result
+
     # You're going to need an API token to get started.
     # You can get one from http://dev.justyo.co/
     def initialize(api_token)
@@ -29,13 +39,13 @@ module Yoyo
     # Usage: yo("PHILCRISSMAN") 
     # Returns a Faraday response, so you can see the HTTP status and errors, if any
     def yo(some_user)
-      api_connection.post "/yo/", { api_token: api_token, username: some_user }
+      build_result :post, "/yo/", username: some_user
     end
 
     # Say YO to everyone who has ever YO'd your API account
     # Should return an empty body. YOs all your subscribers
     def yo_all
-      api_connection.post "/yoall/", { api_token: api_token }
+      build_result :post, "/yoall/"
     end
 
     # Get the number of subscribers you have. That sounds handy.
@@ -51,7 +61,25 @@ module Yoyo
     #
     # That's not too hard.
     def subscribers_count
-      api_connection.get "/subscribers_count/", { api_token: api_token }
+      build_result :get, "/subscribers_count/"
+      result.result
+    end
+
+    private
+
+    def build_result(method, path, opts={})
+      tap do
+        response = api_connection.send(method, path, opts.merge(api_token: api_token))
+        parsed = JSON::parse(response.body)
+
+        @result = OpenStruct.new({
+          response: response,
+          parsed: parsed,
+          error: parsed['error'],
+          result: parsed['result']
+        })
+      end
     end
   end
 end
+
