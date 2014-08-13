@@ -37,6 +37,24 @@ class YoyoTest < Minitest::Test
     assert_equal nil, yo.result.error
   end
 
+  def test_rate_limited
+    @rate_limited_test_connection = Faraday.new do |builder|
+      builder.adapter :test do |stub|
+        stub.post('/yo/') { [400, {}, "\"Rate limit exceeded. Only one Yo per recipient per minute.\""] }
+      end
+    end
+
+    Yoyo::Yo.any_instance.stubs(:api_connection).returns(@rate_limited_test_connection)
+
+    yo = Yoyo::Yo.new("some-token")
+
+    yo.yo("PHILCRISSMAN")
+    assert_equal "\"Rate limit exceeded. Only one Yo per recipient per minute.\"", yo.result.response.body
+    assert_equal "Rate limit exceeded. Only one Yo per recipient per minute.", yo.result.error
+
+    Yoyo::Yo.any_instance.unstub(:api_connection)
+  end
+
   def test_saying_yo_all
     yo = Yoyo::Yo.new("some-token")
 

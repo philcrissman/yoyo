@@ -70,7 +70,15 @@ module Yoyo
     def build_result(method, path, opts={})
       tap do
         response = api_connection.send(method, path, opts.merge(api_token: api_token))
-        parsed = JSON::parse(response.body)
+        begin
+          parsed = JSON::parse(response.body)
+        rescue JSON::ParserError => e
+          # if we can't parse the JSON, Yo may have just returned 
+          # a string (not JSON). It (currently) does this when
+          # rate limiting (eg, try to YO the same user twice 
+          # within a minute)
+          parsed = {"error" => response.body.gsub("\"", '')}
+        end
 
         @result = OpenStruct.new({
           response: response,
