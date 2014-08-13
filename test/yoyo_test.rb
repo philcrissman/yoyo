@@ -23,28 +23,30 @@ class YoyoTest < Minitest::Test
 
   def test_yo_initialization_with_no_token
     assert_raises ArgumentError do
-      yo = Yoyo::Yo.new
+      Yoyo::Yo.new
     end
   end
 
   def test_saying_yo
     yo = Yoyo::Yo.new("some-token")
 
-    response = yo.yo("PHILCRISSMAN")
-    assert_equal "{\"result\": \"OK\"}", response.body
+    yo.yo("PHILCRISSMAN")
+    assert_equal "{\"result\": \"OK\"}", yo.result.response.body
+    assert_equal({'result' => "OK"}, yo.result.parsed)
+    assert_equal "OK", yo.result.result
+    assert_equal nil, yo.result.error
   end
 
   def test_saying_yo_all
     yo = Yoyo::Yo.new("some-token")
 
-    response = yo.yo_all
-    assert_equal "{}", response.body
+    yo.yo_all
+    assert_equal "{}", yo.result.response.body
   end
 
   def test_get_subscriber_count
     yo = Yoyo::Yo.new("some-token")
 
-    response = yo.subscribers_count
-    assert_equal "{\"result\": 9001}", response.body
+    assert_equal 9001, yo.subscribers_count
   end
 end
