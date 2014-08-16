@@ -67,4 +67,17 @@ class YoyoTest < Minitest::Test
 
     assert_equal 9001, yo.subscribers_count
   end
+
+  def test_yo_with_link
+    yo = Yoyo::Yo.new("some-token")
+    yo.yo("PHILCRISSMAN", link: "http://justyo.co")
+    assert_equal({'result' => "OK"}, yo.result.parsed)
+  end
+
+  def test_yo_all_with_link
+    yo = Yoyo::Yo.new("some-token")
+
+    yo.yo_all
+    assert_equal "{}", yo.result.response.body
+  end
 end
