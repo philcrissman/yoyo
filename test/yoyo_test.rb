@@ -69,7 +69,7 @@ class YoyoTest < Minitest::Test
   end
 
   def test_yo_all_with_link
-    yo.yo_all
+    yo.yo_all link: "http://justyo.co"
     assert_equal "{}", yo.result.response.body
   end
 end
