@@ -2,6 +2,8 @@
 
 A ruby gem for using the YO API. You know you need this.
 
+[![Build Status](https://travis-ci.org/philcrissman/yoyo.svg)](https://travis-ci.org/philcrissman/yoyo)
+
 ## Installation
 
 Add this line to your application's Gemfile:
