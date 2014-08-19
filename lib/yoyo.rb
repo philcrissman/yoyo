@@ -38,14 +38,14 @@ module Yoyo
     # Say YO to someone from your API account
     # Usage: yo("PHILCRISSMAN") 
     # Returns a Faraday response, so you can see the HTTP status and errors, if any
-    def yo(some_user)
-      build_result :post, "/yo/", username: some_user
+    def yo(some_user, opts={})
+      build_result :post, "/yo/", opts.merge(username: some_user)
     end
 
     # Say YO to everyone who has ever YO'd your API account
     # Should return an empty body. YOs all your subscribers
-    def yo_all
-      build_result :post, "/yoall/"
+    def yo_all(opts={})
+      build_result :post, "/yoall/", opts
     end
 
     # Get the number of subscribers you have. That sounds handy.

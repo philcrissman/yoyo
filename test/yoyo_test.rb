@@ -4,6 +4,10 @@ require 'yoyo'
 require 'mocha/mini_test'
 
 class YoyoTest < Minitest::Test
+  def yo
+    @yo ||= Yoyo::Yo.new("some-token")
+  end
+
   def setup
     @test_connection = Faraday.new do |builder|
       builder.adapter :test do |stub|
@@ -15,9 +19,8 @@ class YoyoTest < Minitest::Test
 
     Yoyo::Yo.any_instance.stubs(:api_connection).returns(@test_connection)
   end
-  
+
   def test_yo_initialization
-    yo = Yoyo::Yo.new("some-token")
     assert_equal "some-token", yo.api_token
   end
 
@@ -28,8 +31,6 @@ class YoyoTest < Minitest::Test
   end
 
   def test_saying_yo
-    yo = Yoyo::Yo.new("some-token")
-
     yo.yo("PHILCRISSMAN")
     assert_equal "{\"result\": \"OK\"}", yo.result.response.body
     assert_equal({'result' => "OK"}, yo.result.parsed)
@@ -46,8 +47,6 @@ class YoyoTest < Minitest::Test
 
     Yoyo::Yo.any_instance.stubs(:api_connection).returns(@rate_limited_test_connection)
 
-    yo = Yoyo::Yo.new("some-token")
-
     yo.yo("PHILCRISSMAN")
     assert_equal "\"Rate limit exceeded. Only one Yo per recipient per minute.\"", yo.result.response.body
     assert_equal "Rate limit exceeded. Only one Yo per recipient per minute.", yo.result.error
@@ -56,15 +55,21 @@ class YoyoTest < Minitest::Test
   end
 
   def test_saying_yo_all
-    yo = Yoyo::Yo.new("some-token")
-
     yo.yo_all
     assert_equal "{}", yo.result.response.body
   end
 
   def test_get_subscriber_count
-    yo = Yoyo::Yo.new("some-token")
-
     assert_equal 9001, yo.subscribers_count
+  end
+
+  def test_yo_with_link
+    yo.yo("PHILCRISSMAN", link: "http://justyo.co")
+    assert_equal({'result' => "OK"}, yo.result.parsed)
+  end
+
+  def test_yo_all_with_link
+    yo.yo_all link: "http://justyo.co"
+    assert_equal "{}", yo.result.response.body
   end
 end
