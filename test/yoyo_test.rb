@@ -72,4 +72,21 @@ class YoyoTest < Minitest::Test
     yo.yo_all link: "http://justyo.co"
     assert_equal "{}", yo.result.response.body
   end
+
+  def test_yo_with_valid_location
+    yo.yo("PHILCRISSMAN", location: "51.5033630;-0.1276250")
+    assert_equal({'result' => "OK"}, yo.result.parsed)
+  end
+
+  def test_yo_with_invalid_location
+    assert_raises Yoyo::InvalidLocationError do
+      yo.yo("PHILCRISSMAN", location: "51.5033630,-0.1276250")
+    end
+  end
+
+  def test_yo_with_link_and_location
+    assert_raises Yoyo::InvalidLocationError do
+      yo.yo("PHILCRISSMAN", location: "51.5033630;-0.1276250", link: "http://justyo.co")
+    end
+  end
 end

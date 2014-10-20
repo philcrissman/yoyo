@@ -4,6 +4,8 @@ require 'json'
 require 'ostruct'
 
 module Yoyo
+  InvalidLocationError = Class.new(StandardError)
+
   class Yo
     # = Yoyo
     #
@@ -68,6 +70,8 @@ module Yoyo
     private
 
     def build_result(method, path, opts={})
+      assert_valid_location!(opts[:location], opts[:link])
+
       tap do
         response = api_connection.send(method, path, opts.merge(api_token: api_token))
         begin
@@ -87,6 +91,13 @@ module Yoyo
           result: parsed['result']
         })
       end
+    end
+
+    def assert_valid_location!(location, link)
+      return true unless location
+      raise InvalidLocationError, ":location may not be requested with :link" if location && link
+      raise InvalidLocationError, ":location must be in format 'lat;long'" unless location.split(';').compact.size == 2
+      true
     end
   end
 end
